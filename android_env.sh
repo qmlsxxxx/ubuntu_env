@@ -14,5 +14,5 @@ sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update
 sudo apt-get install oracle-java6-installer
 
-echo "export USE_CCACHE=1" > $HOME/.bashrc
-echo "export CCACHE_DIR=$HOME/.ccache" > $HOME/.bashrc
+echo "export USE_CCACHE=1" >> $HOME/.bashrc
+echo "export CCACHE_DIR=$HOME/.ccache" >> $HOME/.bashrc

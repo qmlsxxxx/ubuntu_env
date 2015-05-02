@@ -13,7 +13,8 @@ sudo apt-get install vim samba openssh-server vnc4server vnc4server \
 
 cp .vimrc $HOME/.vimrc
 cp .screenrc $HOME/.screenrc
+cp .grepignore $HOME/.grepignore
 cp -a .vim $HOME/
 
-echo "SVN_EDITOR=vim" > $HOME/.bashrc
-echo "grep='grep --color --exclude-from=$HOME/.grepignore'" > $HOME/.bashrc
+echo "SVN_EDITOR=vim" >> $HOME/.bashrc
+echo "grep='grep --color --exclude-from=$HOME/.grepignore'" >> $HOME/.bashrc
