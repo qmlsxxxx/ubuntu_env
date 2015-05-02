@@ -15,3 +15,5 @@ cp .vimrc $HOME/.vimrc
 cp .screenrc $HOME/.screenrc
 cp -a .vim $HOME/
 
+echo "SVN_EDITOR=vim" > $HOME/.bashrc
+echo "grep='grep --color --exclude-from=$HOME/.grepignore'" > $HOME/.bashrc
