@@ -16,5 +16,7 @@ cp .screenrc $HOME/.screenrc
 cp .grepignore $HOME/.grepignore
 cp -a .vim $HOME/
 
+git config --global core.editor vim
+
 echo "SVN_EDITOR=vim" >> $HOME/.bashrc
 echo "grep='grep --color --exclude-from=$HOME/.grepignore'" >> $HOME/.bashrc
