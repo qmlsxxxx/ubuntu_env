@@ -18,5 +18,5 @@ cp -a .vim $HOME/
 
 git config --global core.editor vim
 
-echo "SVN_EDITOR=vim" >> $HOME/.bashrc
-echo "grep='grep --color --exclude-from=$HOME/.grepignore'" >> $HOME/.bashrc
+echo "export SVN_EDITOR=vim" >> $HOME/.bashrc
+echo "alias grep='grep --color --exclude-from=$HOME/.grepignore'" >> $HOME/.bashrc
