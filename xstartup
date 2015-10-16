@@ -14,8 +14,21 @@
 
 unset SESSION_MANAGER
 unset DBUS_SESSION_BUS_ADDRESS
-
-xrdb $HOME/.Xresources
-x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
 export XKL_XMODMAP_DISABLE=1
-gnome-session --session=gnome-fallback &
+
+
+#------ for ubuntu 12.04 gnomeo classic ------ #
+#xrdb $HOME/.Xresources
+#x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+#gnome-session --session=gnome-fallback &
+#xfce4-session &
+
+#------ for ubuntu 14.04 gnome classic ------
+#xsetroot -solid grey
+#vncconfig -iconic &
+
+gnome-panel &
+gnome-settings-daemon &
+metacity &
+nautilus &
+gnome-terminal &
