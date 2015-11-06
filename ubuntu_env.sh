@@ -5,9 +5,11 @@ cp Consolas.ttf $HOME/.fonts/
 sudo fc-cache -f -v
 
 sudo dpkg-reconfigure dash
+sudo add-apt-repository ppa:tsvetko.tsvetkov/cinnamon
+sudo apt-get update
 
 sudo apt-get install vim samba openssh-server vnc4server \
-	p7zip-full screen subversion libncurses5-dev ctags
+	cinnamon p7zip-full screen subversion libncurses5-dev ctags
 
 cp .vimrc $HOME/.vimrc
 cp .screenrc $HOME/.screenrc
