@@ -1,0 +1,23 @@
+[user]
+	name = ivan_chung
+	email = ivan_chung@realtek.com
+[color]
+	ui = auto
+[core]
+	editor = vim
+	fileMode = false
+[giggle]
+	main-window-maximized = true
+	main-window-geometry = 274x57+0+52
+	file-view-vpane-position = 263
+	file-view-hpane-position = 234
+	history-view-vpane-position = 803
+	main-window-view = FileView
+[diff]
+	tool = meld
+[difftool]
+	bc3 = trustExitCode
+[log]
+	date = short
+[format]
+	pretty = format:%C(yellow)%h %C(bold blue)%ad%Creset %<(15)%aN %C(green)%s%Creset
