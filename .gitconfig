@@ -18,6 +18,6 @@
 [difftool]
 	bc3 = trustExitCode
 [log]
-	date = short
+	date = format:%Y/%m/%d %H:%M:%S
 [format]
-	pretty = format:%C(yellow)%h %C(bold blue)%ad%Creset %<(15)%aN %C(green)%s%Creset
+	pretty = format:%C(yellow)%h %C(bold blue)%ad%Creset %<(16)%aN %C(green)%s%Creset
