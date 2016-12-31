@@ -344,7 +344,7 @@ color default			default	default	normal
 color cursor			white	green	bold
 color status			green	default
 color delimiter			magenta	default
-color date			blue	default
+color date			blue	default		bold
 color mode			cyan	default
 color id			magenta	default
 color overflow			red	default
