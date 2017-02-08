@@ -21,3 +21,5 @@
 	date = format:%Y/%m/%d %H:%M:%S
 [format]
 	pretty = format:%C(yellow)%h %C(bold blue)%ad%Creset %<(16)%aN %C(green)%s%Creset
+[color "branch"]
+    upstream = bold blue
