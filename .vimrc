@@ -184,6 +184,13 @@ nmap tt :call SwitchLastUsedTab()<CR>
     set tags=tags,../tags,../../tags,../../../tags,../../../../tags,../../../../../tags
 
     """"""""""""""""""""""""""""""
+    " quickr-cscope
+    """"""""""""""""""""""""""""""
+	"let g:quickr_cscope_program = "gtags-cscope"
+	"let g:quickr_cscope_db_file = "GTAGS"
+	"let g:quickr_cscope_use_qf_g = 1
+
+    """"""""""""""""""""""""""""""
     " cscope
     """"""""""""""""""""""""""""""
     " init cscope hotkey
