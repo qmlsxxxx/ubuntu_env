@@ -6,7 +6,6 @@ set backspace=2
 set nocompatible               " be iMproved
 filetype off                   " required!
 "colorscheme torte
-set rtp+=~/.vim/bundle/vundle/
 
 if &term == "xterm-color" || &term == "xterm-16color"
     set t_Co=16
@@ -110,40 +109,47 @@ set backspace=indent,eol,start  " Allow backspacing over these
 " [ Bundle configuration ]                                                   {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
 
 " let Vundle manage Vundle
 " required! 
-Bundle 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 
 " My Bundles here:
 "
 " original repos on github
-Bundle 'tpope/vim-fugitive'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-Bundle 'tpope/vim-rails.git'
-Bundle 'scrooloose/syntastic'
+Plugin 'tpope/vim-fugitive'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+Plugin 'tpope/vim-rails.git'
+Plugin 'scrooloose/syntastic'
 " Bundle 'YouCompleteMe'
 " vim-scripts repos
-Bundle 'L9'
-Bundle 'FuzzyFinder'
-Bundle 'taglist.vim'
+Plugin 'L9'
+Plugin 'FuzzyFinder'
+Plugin 'taglist.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'ronakg/quickr-cscope.vim'
 " non github repos
 " Bundle 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (ie. when working on your own plugin)
 " Bundle 'file:///Users/gmarik/path/to/plugin'
-" ...
 
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
 "
 " Brief help
-" :BundleList          - list configured bundles
-" :BundleInstall(!)    - install(update) bundles
-" :BundleSearch(!) foo - search(or refresh cache first) for foo
-" :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 "
 " see :h vundle for more details or wiki for FAQ
-" NOTE: comments after Bundle command are not allowed..
+" Put your non-Plugin stuff after this line
 
 " }}}
 
@@ -175,44 +181,18 @@ nmap tt :call SwitchLastUsedTab()<CR>
     " ctags
     """"""""""""""""""""""""""""""
     " Set tags path
-    set tags=tags,../tags,../../tags,../../../tags,../../../../tags
+    set tags=tags,../tags,../../tags,../../../tags,../../../../tags,../../../../../tags
 
     """"""""""""""""""""""""""""""
     " cscope
     """"""""""""""""""""""""""""""
     " init cscope hotkey
-    function! UseAwesomeCscope()
-        try
-            set tags+=/home/kent/horus/apps/tags
-            exe "cs add ../cscope.out .."
-            exe "cs add /home/kent/cscope_ctag/Horus/cscope.out /home/kent/Project/Horus/apps"
-        catch /duplicate/
-                silent exe "!tag_rebuild .."
-                silent exe "cs reset"
-                exe "redraw!"
-                echohl Wildmenu | echo "cscope database inuse, update and re-init all connections" | echohl None
-        catch /stat/
-            silent exe "!tag_rebuild .."
-            try
-                exe "cs add ../cscope.out .."
-                exe "cs add /home/kent/cscope_ctag/Horus/cscope.out /home/kent/Project/Horus/apps"
-                exe "redraw!"
-                echohl Wildmenu | echo "cscope file not found, exec tag_rebuild" | echohl None
-            catch
-                exe "redraw!"
-                echohl ErrorMsg | echo "You don't have enough privilege XD" | echohl None
-            endtry
-        endtry
-    endfun
-    nnoremap <F11> <ESC>:call UseAwesomeCscope()<CR>
-
-    " [Web Dev] Gernerate tags file for *.js only!
-    nnoremap <F11>w <ESC>:!tag_rebuild ..<CR><ESC>:redraw!<CR>
-
-    " To avoid using wrong cscope(/opt/montavista/pro5.0/bin/cscope) once sourcing devel_IP8161_VVTK
-    if match(system('ls ~/usr/bin/cscope'), 'cscope') != -1
-        set cscopeprg=~/usr/bin/cscope
-    endif
+	"if has("cscope")
+	"	set csprg=/usr/bin/cscope
+	"	cs add ../cscope.out
+	"	nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+	"	nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+	"endif
 
 " }}}
 
