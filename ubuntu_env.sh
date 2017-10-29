@@ -10,7 +10,8 @@ sudo apt-add-repository ppa:git-core/ppa
 sudo apt-get update
 
 sudo apt-get install vim samba openssh-server vnc4server \
-	cinnamon p7zip-full screen subversion libncurses5-dev ctags
+	cinnamon p7zip-full screen subversion libncurses5-dev ctags \
+	diffstat chrpath texinfo
 
 cp .vimrc $HOME/.vimrc
 cp .screenrc $HOME/.screenrc
