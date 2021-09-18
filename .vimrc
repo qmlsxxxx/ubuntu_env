@@ -131,6 +131,11 @@ Plugin 'FuzzyFinder'
 Plugin 'taglist.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'ronakg/quickr-cscope.vim'
+Plugin 'hari-rangarajan/CCTree'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+
+"Plugin 'mileszs/ack.vim'
 " non github repos
 " Bundle 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (ie. when working on your own plugin)
@@ -282,6 +287,21 @@ function! QFixToggle(forced)
     endif
 endfunction
 nnoremap <leader>q :QFix<CR>
+
+" quickfix window on/off
+map <F8> <ESC>:call QFSwitch()<CR>
+function! QFSwitch()
+	redir => ls_output
+	execute ':silent! ls'
+	redir END
+
+	let exists = match(ls_output, "[Quickfix List")
+	if exists == -1
+		execute ':copen'
+	else
+		execute ':cclose'
+	endif
+endfunction
 
 " Remove unnecessary spaces in the end of line
 "autocmd FileType c,cpp,perl,python,sh,html,js autocmd FileWritePre,BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
