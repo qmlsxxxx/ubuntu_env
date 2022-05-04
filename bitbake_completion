@@ -1,0 +1,118 @@
+#!bash
+# Bash completion support for bitbake 1.40.0 release.
+#
+# Copyright (C) 2014 Sergio Prado <sergio.prado@e-labworks.com>
+# Copyright (C) 2018 Lukasz Gardon <lukasz.gardon@gmail.com>
+#
+# Distributed under the MIT License (MIT)
+#
+
+
+__bitbake_parse_recipes () {
+    bb_layers_conf="conf/bblayers.conf"
+    bb_layers_md5=".bb_layers_conf.md5"
+    bb_recipes=".bb_recipes"
+	md5sum $bb_layers_conf > $bb_layers_md5
+	bitbake -s | sed -e '0,/^=.*/d' -e '/^\s*$/d' -e '/^Summary:/d' | awk '{print $1}' > $bb_recipes
+}
+
+_bitbake()
+{
+    local cur prev opts_short opts_long tasks recipes ui
+    local bb_layers_conf bb_layers_md5 bb_recipes
+
+    COMPREPLY=()
+
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+    opts_short="-h -b -k -f -c -C -r -R -v -D -q -n -S -p -s -e -g -I \
+                -l -P -u -B -T -m -w"
+
+    opts_long="--version --help --buildfile= --continue --force --cmd= \
+               --clear-stamp= --read= --postread= --verbose --debug --quiet \
+               --dry-run --dump-signatures= --parse-only --show-versions \
+               --environment --graphviz --ignore-deps= --log-domains= --profile \
+               --ui= --token= --revisions-changed --server-only --bind= \
+               --idle-timeout= --no-setscene --setscene-only --remote-server= \
+               --kill-server --observe-only --status-only --write-log= --runall= \
+               --runonly="
+
+    tasks="build compile compile_ptest_base configure configure_ptest_base deploy \
+           distrodata fetch image image_complete install install_ptest_base package \
+           package_qa package_write_deb package_write_ipk package_write_rpm package_write_tar \
+           packagedata patch populate_lic populate_sdk populate_sysroot prepare_recipe_sysroot \
+           rm_work unpack checkpkg checkuri clean cleanall cleansstate devpyshell devshell \
+           listtasks package_index bootimg bundle_initramfs rootfs testimage testimage_auto \
+           compile_kernelmodules diffconfig kernel_checkout kernel_configcheck kernel_configme \
+           kernel_menuconfig kernel_metadata menuconfig savedefconfig shared_workdir sizecheck \
+           strip validate_branches spdx"
+
+
+    ui="knotty ncurses taskexp"
+
+    if [[ "$prev" == "=" ]]; then
+        prev="${COMP_WORDS[COMP_CWORD - 2]}"
+    elif [[ "$cur" == "=" ]]; then
+        cur=""
+    fi
+
+    conf_files=$(find . -maxdepth 1 -name "*.conf" -type f -printf '%P\n')
+
+    case "$prev" in
+        "-c"|"--cmd"|"-C"|"--clear-stamp"|"--ignore-deps"|"--runall"|"--runonly")
+            COMPREPLY=( $(compgen -W "${tasks}" -- ${cur}) )
+            return 0
+        ;;
+        "-r"|"--read"|"-R"|"--postread")
+            COMPREPLY=( $(compgen -W "${conf_files}" -- ${cur}) )
+            return 0
+        ;;
+        "-u"|"--ui")
+            COMPREPLY=( $(compgen -W "${ui}" -- ${cur}) )
+            return 0
+        ;;
+    esac
+
+    case "$cur" in
+        "--"*)
+            COMPREPLY=( $(compgen -W "${opts_long}" -- ${cur}) )
+            if [[ ${#COMPREPLY[@]} == 1 && ${COMPREPLY[0]} == "--"*"=" ]] ; then
+                compopt -o nospace
+            fi
+            return 0
+        ;;
+        "-"*)
+            COMPREPLY=( $(compgen -W "${opts_short}" -- ${cur}) )
+            return 0
+        ;;
+    esac
+
+    bb_layers_conf="conf/bblayers.conf"
+    bb_layers_md5=".bb_layers_conf.md5"
+    bb_recipes=".bb_recipes"
+
+    _parse_recipes () {
+        bitbake -s | sed -e '0,/^=.*/d' -e '/^\s*$/d' -e '/^Summary:/d' | awk '{print $1}' > $bb_recipes
+    }
+
+    if [ ! -e $bb_layers_conf ]; then
+        return 0
+    fi
+
+    if [ "$prev" = "bitbake" -a "$cur" = "" ]; then
+        _parse_recipes
+    fi
+
+    md5sum --quiet --status -c $bb_layers_md5 2>/dev/null
+    if [ $? != 0 -o ! -e $bb_recipes ]; then
+         md5sum $bb_layers_conf > $bb_layers_md5
+         _parse_recipes
+    fi
+
+    recipes=$(cat $bb_recipes)
+
+    COMPREPLY=( $(compgen -W "${recipes}" -- ${cur}) )
+    return 0
+}
+complete -F _bitbake bitbake
