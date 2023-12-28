@@ -1,9 +1,26 @@
 PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ]; then
+    PATH="$HOME/bin:$PATH"
+fi
 
-alias grep='grep --color --exclude-from=$HOME/.grepignore'
+if [ -d "$HOME/.bash_completion.d" ]; then
+	for bcfile in $HOME/.bash_completion.d/* ; do
+		  [ -f "$bcfile" ] && . $bcfile
+	done
+fi
+
+if [ -f $HOME/.grepignore ]; then
+	alias grep='grep --color --exclude-from=$HOME/.grepignore'
+else
+	alias grep='grep --color'
+fi
+
 alias ag='ag --nobreak --noheading --ignore=tags'
 alias tmux='tmux -2'
 
+export TERM=screen-256color
 export USE_CCACHE=1
 export CCACHE_DIR=$HOME/.ccache
 export LC_ALL="en_US.UTF-8"
@@ -11,8 +28,8 @@ export SVN_EDITOR=vim
 export _JAVA_OPTIONS=-Xmx7372m
 export FZF_DEFAULT_COMMAND="fd --ignore-file $HOME/.fdignore"
 export FZF_CTRL_T_COMMAND="fd --type f -u --follow --ignore-file $HOME/.fdignore"
-export FZF_ALT_C_COMMAND="fd --type d -u --follow"
-
+export FZF_ALT_C_COMMAND="fd --type d -d 5 -u --follow"
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
 function __is_in_git_repo() 
 {
@@ -20,7 +37,7 @@ function __is_in_git_repo()
     git rev-parse HEAD > /dev/null
 }
 
-function __fzf_git_co_branch()
+function fzf-git-co-branch()
 {
 	if [ "$1" != "" ]; then
 		BR="-b $1"
@@ -29,12 +46,12 @@ function __fzf_git_co_branch()
 	git checkout $(git branch | fzf --cycle --border --ansi) $BR
 }
 
-function __fzf_git_add()
+function fzf-git-add()
 {
-	git status --short | fzf --multi --color=dark --cycle --border --ansi --preview-window=up:70% --preview="git diff --color {+2}" | awk '{print \$2}'  | xargs git add
+	git status --short | fzf --multi --color=dark --cycle --border --ansi --preview-window=up:70% --preview="git diff --color {+2}" | awk '{print $2}'  | xargs git add
 }
 
-function __fzf_git_log() 
+function fzf-git-log() 
 { 
 	# fshow - git commit browser
     __is_in_git_repo || return
@@ -52,12 +69,12 @@ function __fzf_git_log()
 FZF-EOF"
 }
 
-function __fzf_ag_vim()
+function fzf-ag-vim()
 {
 	local file
 	declare -a foo
 
-	file="$(ag --nobreak --noheading "$1" | awk -F: '{print $1 ":" $2}' | fzf -0 -1 --color=dark --cycle --border --ansi --preview-window=right:50% --preview="mybat {}" )" 
+	file="$(ag --nobreak --noheading $@ | fzf -0 -1 --color=dark --cycle --border --ansi --preview-window=right:50% --preview="mybat {}" )" 
 
 	read -a foo <<< "$(echo $file | awk -F: '{print $1 " " $2}')"
 
@@ -67,7 +84,7 @@ function __fzf_ag_vim()
 	fi
 }
 
-function __fzf_vim_file()
+function fzf-vim-file()
 {
 	file="$(fd $1 | fzf -0 -1 --color=dark --cycle --border --ansi --preview-window=right:50% --preview="bat --style=numbers --color=always {}" )"
 
@@ -75,5 +92,4 @@ function __fzf_vim_file()
 		vim $file
 	fi
 }
-
 
