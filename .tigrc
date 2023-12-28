@@ -55,11 +55,13 @@
 
 set blame-view	= date:default author:full file-name:auto id:yes,color line-number:no,interval=5 text
 set grep-view	= file-name:no line-number:yes,interval=1 text
-set main-view	= line-number:no,interval=5 id:yes date:default author:full commit-title:yes,graph,refs,overflow=no
+set main-view	= line-number:no,interval=5 id:yes date:custom author:full commit-title:yes,graph,refs,overflow=no
 set refs-view	= line-number:no id:no date:default author:full ref commit-title
 set stash-view	= line-number:no,interval=5 id:no date:default author:full commit-title
 set status-view	= line-number:no,interval=5 status:short file-name
 set tree-view	= line-number:no,interval=5 mode author:full file-size date:default id:no file-name
+
+set main-view-date-format = "%Y-%m-%d"
 
 # Pager based views
 set pager-view	= line-number:no,interval=5 text
@@ -89,14 +91,14 @@ set line-graphics		= ascii	# Enum: ascii, default, utf-8
 set reference-format		= [branch] <tag> {remote} ~replace~
 
 # Settings controlling how content is read from Git
-set commit-order		= auto		# Enum: auto, default, topo, date, reverse (main)
-set status-untracked-dirs	= yes		# Show files in untracked directories? (status)
+set commit-order		= date		# Enum: auto, default, topo, date, reverse (main)
+set status-show-untracked-dirs	= yes		# Show files in untracked directories? (status)
 set ignore-space		= no		# Enum: no, all, some, at-eol (diff)
 set show-notes			= yes		# When non-bool passed as `--show-notes=...` (diff)
 #set diff-context		= 3		# Number of lines to show around diff changes (diff)
 #set diff-options		= -C		# User-defined options for `tig show` (git-diff)
 #set blame-options		= -C -C -C	# User-defined options for `tig blame` (git-blame)
-#set log-options		= --pretty=raw	# User-defined options for `tig log` (git-log)
+#set log-options		= --pretty	# User-defined options for `tig log` (git-log)
 #set main-options		= -n 1000	# User-defined options for `tig` (git-log)
 #set mailmap			= yes		# Use .mailmap to show canonical name and email address
 
@@ -108,7 +110,7 @@ set wrap-search			= yes		# Wrap around to top/bottom of view when searching
 set focus-child			= yes		# Move focus to child view when opened?
 set horizontal-scroll		= 50%		# Number of columns to scroll as % of width
 set split-view-height		= 67%		# Height of the bottom view for horizontal splits
-set vertical-split		= auto		# Enum: horizontal, vertical, auto; Use auto to
+set vertical-split		= horizontal		# Enum: horizontal, vertical, auto; Use auto to
 						# switch to horizontal split when width allows it
 set split-view-width		= 50%		# Width of right-most view for vertical splits
 set editor-line-number		= yes		# Automatically pass line number to editor? Used
