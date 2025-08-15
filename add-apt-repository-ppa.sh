@@ -8,5 +8,7 @@ sudo $apt install software-properties-common
 
 sudo add-apt-repository -y ppa:x4121/ripgrep
 sudo add-apt-repository -y ppa:git-core/ppa
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+
 #sudo add-apt-repository ppa:itrue/fd-find
 

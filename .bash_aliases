@@ -1,8 +1,20 @@
 PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '
+
+source /etc/environment
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ]; then
     PATH="$HOME/bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/bin" ]; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/depot_tools" ]; then
+    PATH="$HOME/.local/depot_tools:$PATH"
 fi
 
 if [ -d "$HOME/.bash_completion.d" ]; then
@@ -22,7 +34,7 @@ alias tmux='tmux -2'
 
 export TERM=screen-256color
 export USE_CCACHE=1
-export CCACHE_DIR=$HOME/.ccache
+export CCACHE_DIR=$HOME/nvme2/.ccache
 export LC_ALL="en_US.UTF-8"
 export SVN_EDITOR=vim
 export _JAVA_OPTIONS=-Xmx7372m
@@ -86,10 +98,22 @@ function fzf-ag-vim()
 
 function fzf-vim-file()
 {
-	file="$(fd $1 | fzf -0 -1 --color=dark --cycle --border --ansi --preview-window=right:50% --preview="bat --style=numbers --color=always {}" )"
+	file="$(fd $@ | fzf -0 -1 --color=dark --cycle --border --ansi --preview-window=right:50% --preview="bat --style=numbers --color=always {}" )"
 
 	if [[ -n $file ]]; then
 		vim $file
 	fi
 }
 
+function fzf-nvim-file()
+{
+	file="$(fd $@ | fzf -0 -1 --color=dark --cycle --border --ansi --preview-window=right:50% --preview="bat --style=numbers --color=always {}" )"
+
+	if [[ -n $file ]]; then
+		vim $file
+	fi
+}
+
+
+#repo forall -c 'GIT_LOG=`git log -5`; echo "#[$REPO_PROJECT]:  $REPO_PATH"; echo "$GIT_LOG"; echo "";'
+#repo forall -c 'echo "#[$REPO_PROJECT]: $REPO_PATH";'
