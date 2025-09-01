@@ -14,6 +14,12 @@ __bitbake_parse_recipes () {
     bb_recipes=".bb_recipes"
 	md5sum $bb_layers_conf > $bb_layers_md5
 	bitbake -s | sed -e '0,/^=.*/d' -e '/^\s*$/d' -e '/^Summary:/d' | awk '{print $1}' > $bb_recipes
+
+    output=$(bitbake -e virtual/kernel)
+    export kernel_build=$(echo "$output" | grep ^B= | cut -d'=' -f2- | sed 's/^"\(.*\)"$/\1/')
+    export kernel_source=$(echo "$output" | grep ^S= | cut -d'=' -f2- | sed 's/^"\(.*\)"$/\1/')
+    output=$(bitbake -e u-boot)
+    export uboot_source=$(echo "$output" | grep ^WORKDIR= | cut -d'=' -f2- | sed 's/^"\(.*\)"$/\1/')
 }
 
 _bitbake()
